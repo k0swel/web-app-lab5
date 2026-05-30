@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB4 | Authentication</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-height: 100vh;
+            width: 100%;
+            background-color: #15181a;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+        .reg-form {
+            width: 30%;
+            background-color: rgba(21, 24, 26, 0.8);
+            border: 1px solid rgb(70, 68, 68);
+            border-radius: 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        .form {
+            color: white;
+        }
+        .reg-header {
+            color: white;
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <header class="header ps-4">
+<svg width="206" height="61" viewBox="0 0 206 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.633 0L6.06235 29.9918M0.491699 59.9835L6.06235 29.9918M6.06235 29.9918L31.6874 5.45305M6.06235 29.9918L18.3178 59.9835" stroke="white"/>
+<path d="M91.8497 10.905H74.0237V35.4422H91.8497V59.9809H71.7959M102.992 10.905V59.9809H121.932M140.872 13.63V59.9809H121.932M121.932 59.9809V13.63M174.296 13.63H156.47V36.8055M156.47 36.8055V59.9809H174.296M156.47 36.8055H174.296M185.437 13.63V59.9809H205.492M49.5123 10.905C35.4618 13.1106 40.5993 27.2639 40.5993 27.2639C32.429 37.2611 24.8491 60.7688 38.3707 59.9809C50.6632 59.2647 55.0121 50.4304 56.1975 35.4422C57.4548 19.5449 64.6107 8.53495 49.5123 10.905Z" stroke="white"/>
+</svg>
+    </header>
+    <main>
+        <div class="reg-form">
+            <div class="reg-header pt-4">
+                <p>Регистрация</p>
+            </div>
+            <form class="form p-4">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" style="letter-spacing: 0.3em">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

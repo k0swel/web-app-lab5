@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% from 'users/_form.html' import user_fields %}
+{% block title %}Создание пользователя | LAB4{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="card" style="width:520px;">
+        <div class="card-body p-4">
+            <h4 class="text-white mb-4">Создание пользователя</h4>
+            <form method="POST">
+                {{ user_fields(form_data=form_data, errors=errors, roles=roles, include_login_password=True) }}
+                <div class="d-flex gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a href="{{ url_for('users.index') }}" class="btn btn-outline-secondary">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
