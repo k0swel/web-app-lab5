@@ -65,6 +65,9 @@ def user_create():
         if err:
             errors['login'] = err
 
+        if bool(form_data['role_id']) == False:
+            errors['role_id'] = 'Не выбрана роль'
+        
         err = validate_password(form_data['password'])
         if err:
             errors['password'] = err
