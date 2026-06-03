@@ -88,11 +88,21 @@ def visit_log():
 @visits_bp.route('/visits/by-pages')
 @login_required
 def by_pages():
+    page = request.args.get('page', 1, type=int)
+    total = query(
+        'SELECT COUNT(DISTINCT path) AS cnt FROM visit_logs', one=True
+    )['cnt']
     rows = query(
         '''SELECT path, COUNT(*) AS cnt FROM visit_logs
-           GROUP BY path ORDER BY cnt DESC'''
+           GROUP BY path ORDER BY cnt DESC
+           LIMIT %s OFFSET %s''',
+        (PER_PAGE, (page - 1) * PER_PAGE)
     )
-    return render_template('visits/by_pages.html', rows=rows)
+    total_pages = max(1, math.ceil(total / PER_PAGE))
+    pages = _pagination(page, total_pages)
+    return render_template('visits/by_pages.html', rows=rows, page=page,
+                           total_pages=total_pages, pages=pages,
+                           offset=(page - 1) * PER_PAGE)
 
 
 @visits_bp.route('/visits/by-pages/export')

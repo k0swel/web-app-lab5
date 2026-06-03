@@ -18,6 +18,7 @@ app.register_blueprint(visits_bp)
 @app.before_request
 def record_visit():
     if (not request.path.startswith('/static')
+            and '.' not in request.path
             and request.method == 'GET'):
         log_visit(session.get('user_id'), request.path)
 
