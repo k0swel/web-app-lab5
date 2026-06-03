@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Пользователи | LAB4{% endblock %}
+{% block title %}Пользователи | LAB5{% endblock %}
 
 {% block content %}
 <h2 class="text-white mb-4">Список пользователей</h2>
@@ -24,17 +24,22 @@
                 <td>{{ user.role_name or '-' }}</td>
                 <td>
                     <div class="d-flex gap-2">
-                    <a href="{{ url_for('users.user_view', user_id=user.id) }}"
-                       class="btn btn-sm btn-outline-light">Просмотр</a>
-                    {% if session.get('user_id') %}
-                    <a href="{{ url_for('users.user_edit', user_id=user.id) }}"
-                       class="btn btn-sm btn-outline-warning">Редактировать</a>
-                    <button type="button" class="btn btn-sm btn-outline-danger"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal"
-                            data-user-id="{{ user.id }}"
-                            data-user-name="{{ [user.last_name, user.first_name, user.middle_name] | select | join(' ') }}">
-                        Удалить
-                    </button>
+                    {% if session.get('user_role') == 'Администратор' %}
+                        <a href="{{ url_for('users.user_view', user_id=user.id) }}"
+                           class="btn btn-sm btn-outline-light">Просмотр</a>
+                        <a href="{{ url_for('users.user_edit', user_id=user.id) }}"
+                           class="btn btn-sm btn-outline-warning">Редактировать</a>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                data-user-id="{{ user.id }}"
+                                data-user-name="{{ [user.last_name, user.first_name, user.middle_name] | select | join(' ') }}">
+                            Удалить
+                        </button>
+                    {% elif session.get('user_id') == user.id %}
+                        <a href="{{ url_for('users.user_view', user_id=user.id) }}"
+                           class="btn btn-sm btn-outline-light">Просмотр</a>
+                        <a href="{{ url_for('users.user_edit', user_id=user.id) }}"
+                           class="btn btn-sm btn-outline-warning">Редактировать</a>
                     {% endif %}
                     </div>
                 </td>
@@ -48,7 +53,7 @@
     </table>
 </div>
 
-{% if session.get('user_id') %}
+{% if session.get('user_role') == 'Администратор' %}
 <a href="{{ url_for('users.user_create') }}" class="btn btn-primary mt-2">Создать пользователя</a>
 {% endif %}
 

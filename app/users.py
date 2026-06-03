@@ -3,7 +3,7 @@ import pymysql.err
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from auth import login_required
+from auth import check_rights, login_required
 from db import execute, query
 from validators import validate_login, validate_password
 
@@ -24,6 +24,7 @@ def get_user(user_id):
 
 
 @users_bp.route('/')
+@login_required
 def index():
     users = query(
         '''SELECT u.*, r.name AS role_name FROM users u
@@ -34,6 +35,7 @@ def index():
 
 
 @users_bp.route('/users/<int:user_id>')
+@check_rights('view_user')
 def user_view(user_id):
     user = get_user(user_id)
     if user is None:
@@ -43,7 +45,7 @@ def user_view(user_id):
 
 
 @users_bp.route('/users/create', methods=['GET', 'POST'])
-@login_required
+@check_rights('create_user')
 def user_create():
     roles = get_roles()
     errors = {}
@@ -97,13 +99,14 @@ def user_create():
 
 
 @users_bp.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
-@login_required
+@check_rights('edit_user')
 def user_edit(user_id):
     user = get_user(user_id)
     if user is None:
         flash('Пользователь не найден.', 'danger')
         return redirect(url_for('users.index'))
 
+    is_admin = session.get('user_role') == 'Администратор'
     roles = get_roles()
     errors = {}
 
@@ -123,7 +126,10 @@ def user_edit(user_id):
 
         if not errors:
             try:
-                role_id = int(form_data['role_id']) if form_data['role_id'] else None
+                if is_admin:
+                    role_id = int(form_data['role_id']) if form_data['role_id'] else None
+                else:
+                    role_id = user['role_id']
                 execute(
                     '''UPDATE users SET first_name=%s, last_name=%s, middle_name=%s, role_id=%s
                        WHERE id=%s''',
@@ -145,11 +151,12 @@ def user_edit(user_id):
             'role_id':     str(user['role_id']) if user['role_id'] else '',
         }
 
-    return render_template('users/edit.html', user=user, roles=roles, errors=errors, form_data=form_data)
+    return render_template('users/edit.html', user=user, roles=roles,
+                           errors=errors, form_data=form_data, is_admin=is_admin)
 
 
 @users_bp.route('/users/<int:user_id>/delete', methods=['POST'])
-@login_required
+@check_rights('delete_user')
 def user_delete(user_id):
     user = get_user(user_id)
     if user is None:

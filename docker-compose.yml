@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: lab3
+      MYSQL_DATABASE: lab5
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -23,7 +23,7 @@ services:
       DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: rootpass
-      DB_NAME: lab4
+      DB_NAME: lab5
       SECRET_KEY: gkdflgkdfl435345
     depends_on:
       db:
