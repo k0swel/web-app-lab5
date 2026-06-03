@@ -65,11 +65,9 @@ def user_create():
         if err:
             errors['login'] = err
 
-        print('form_data[role_id] == ', form_data['role_id'])
-        if form_data['role_id'] == "":
-            errors['role_id'] = 'Не выбрана роль'
-            raise ValueError
-        
+        if not form_data['role_id']:
+            errors['role_id'] = 'Необходимо выбрать роль'
+
         err = validate_password(form_data['password'])
         if err:
             errors['password'] = err
